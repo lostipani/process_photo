@@ -19,27 +19,6 @@ namespace exhibit {
     };
 
 
-    class Frame
-    {
-        public:
-        
-        Frame(const std::string&);
-        void resize(int); // set base size, keep aspect ratio fixed
-        void resize(int, double); // set base and aspect ratio
-        void resize(int, int); // set base and height size
-        void make();
-        void info() const;
-        void save(const std::string&) const;
-
-        private:
-        
-        cv::Mat src;
-        std::string getOrientation() const;
-        float getAspectRatio() const;
-        int getHeight(int, double) const;
-    };
-    
-    
     struct Parameters
     {
         float canvasAspectRatio; // height/base
@@ -57,4 +36,27 @@ namespace exhibit {
         std::vector<int> passpartoutColor;
     };
 
+
+    class Frame
+    {
+        public:
+        
+        Frame(const std::string&, const Parameters&);
+        void resize(int); // set base size, keep aspect ratio fixed
+        void resize(int, float); // set base and aspect ratio
+        void resize(int, int); // set base and height size
+        void make();
+        void info() const;
+        void save(const std::string&) const;
+
+        private:
+        
+        cv::Mat src;
+        Parameters params;
+        std::string getOrientation() const;
+        float getAspectRatio() const;
+        int getHeight(int, float) const;
+        cv::Size getSize() const;
+    };
+    
 };

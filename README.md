@@ -6,8 +6,8 @@ Compilation steps
     project(process)
     find_package(OpenCV REQUIRED)
     include_directories(include ${OpenCV_INCLUDE_DIRS})
-    file(GLOB SRC "./src/*.cpp")
-    add_executable(process SRC)
+    file(GLOB SRCS "./src/*.cpp")
+    add_executable(process SRCS)
     target_link_libraries(process ${OpenCV_LIBS})
     ```
 # `cmake [-DCMAKE_CXX_FLAGS="-g"] .`

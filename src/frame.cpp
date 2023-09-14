@@ -2,7 +2,8 @@
 
 
 
-exhibit::Frame::Frame(const std::string& path)
+exhibit::Frame::Frame(const std::string& path, const Parameters& params_):
+    params{params_}
 {
     this->src = utils::input(path);
 }
@@ -74,7 +75,7 @@ void exhibit::Frame::make()
 
     // resize photo accordingly to frame2photoRatio
     int ph_base = std::round(fr_base*params.photo2frameRatio);
-    int ph_height = this->getHeight(ph_base, params.getAspectRatio);
+    int ph_height = this->getHeight(ph_base, this->getAspectRatio());
     this->resize(ph_base, ph_height);
 
     // mind BGR order in opencv
