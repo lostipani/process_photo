@@ -1,3 +1,0 @@
-/home/lorenzo/Documents/mostrafoto_mumi_maggio23/process_photos/CMakeFiles/rebuild_cache.dir
-/home/lorenzo/Documents/mostrafoto_mumi_maggio23/process_photos/CMakeFiles/edit_cache.dir
-/home/lorenzo/Documents/mostrafoto_mumi_maggio23/process_photos/CMakeFiles/process.dir
