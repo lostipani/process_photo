@@ -1,9 +1,12 @@
-#include "../include/frame.h"
+#include "../include/exhibit.h"
 
 int main(int argc, char** argv)
 {
-    Picture pict {argv[1]};
-    pict.info();
+    exhibit::Frame frame {argv[1]};
+    frame.info();
+
+    frame.resizePhoto(1080, 16.0/9.0);
+    frame.info();
 
     return 0;
 }
