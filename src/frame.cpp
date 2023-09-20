@@ -1,7 +1,6 @@
 #include "../include/exhibit.h"
 
 
-
 exhibit::Frame::Frame(const std::string& path, const Parameters& params_):
     params{params_}
 {
@@ -17,7 +16,7 @@ std::string exhibit::Frame::getOrientation() const
 
 
 
-cv::Size exhibit::Frame::getSize() const
+exhibit::Size_t exhibit::Frame::getSize() const
 {
     return this->src.size();
 }
@@ -37,16 +36,16 @@ float exhibit::Frame::getAspectRatio() const
 int exhibit::Frame::getHeight(int base, float aspectRatio) const
 {
     if (this->getOrientation()=="portrait")
-        return std::round(base*aspectRatio);
+        return static_cast<int>(std::round(base*aspectRatio));
     else // =="landscape"
-        return std::round(base/aspectRatio);
+        return static_cast<int>(std::round(base/aspectRatio));
 }
 
 
 
 void exhibit::Frame::resize(int base, int height)
 {
-    cv::resize(this->src, this->src, cv::Size(base, height), 0, 0, cv::INTER_AREA);
+    cv::resize(this->src, this->src, Size_t {base, height}, 0, 0, cv::INTER_AREA);
 }
 
 
@@ -61,7 +60,6 @@ void exhibit::Frame::resize(int base, float aspectRatio)
 
 void exhibit::Frame::resize(int base)
 {
-
     this->resize(base, this->getAspectRatio());
 }
  
@@ -79,8 +77,8 @@ void exhibit::Frame::make()
     this->resize(ph_base, ph_height);
 
     // mind BGR order in opencv
-    cv::Scalar fr_color {utils::rgb2bgr(params.frameColor)};
-    cv::Scalar pp_color {utils::rgb2bgr(params.passpartoutColor)};
+    Scalar_t fr_color {utils::rgb2bgr(params.frameColor)};
+    Scalar_t pp_color {utils::rgb2bgr(params.passpartoutColor)};
     
     // frame's thickness [px]
     int fr_top = std::round(params.frameThickRatio.at(0)*fr_base);
@@ -97,6 +95,13 @@ void exhibit::Frame::make()
     // copy image in larger image so as to get the padding
     cv::copyMakeBorder(this->src, this->src, pp_top, pp_bot, pp_lft, pp_rgt, cv::BORDER_CONSTANT, pp_color);
     cv::copyMakeBorder(this->src, this->src, fr_top, fr_bot, fr_lft, fr_rgt, cv::BORDER_CONSTANT, fr_color);
+}
+
+
+
+void exhibit::Frame::copyTo(exhibit::Data_t& dst, const exhibit::Mask_t& mask) const
+{
+    this->src.copyTo(Data_t {dst, mask});
 }
 
 
