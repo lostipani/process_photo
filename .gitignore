@@ -4,3 +4,4 @@ cmake_install.cmake
 Makefile
 process
 test.jpg
+test.png
