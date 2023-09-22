@@ -6,3 +6,4 @@ rm cmake_install.cmake
 rm Makefile
 rm process
 rm test.jpg
+rm test.png

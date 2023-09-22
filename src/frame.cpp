@@ -43,6 +43,13 @@ int exhibit::Frame::getHeight(int base, float aspectRatio) const
 
 
 
+int exhibit::Frame::getHeight(int base) const
+{
+    return this->getHeight(base, this->getAspectRatio());
+}
+
+
+
 void exhibit::Frame::resize(int base, int height)
 {
     cv::resize(this->src, this->src, Size_t {base, height}, 0, 0, cv::INTER_AREA);

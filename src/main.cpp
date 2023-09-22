@@ -38,9 +38,9 @@ int main(int argc, char** argv)
 
 
     // instantiate Canvas
-    exhibit::Canvas *canvas = new exhibit::Matrix {frames, parameters, 1, 2};
+    exhibit::Canvas *canvas = new exhibit::Matrix {frames, parameters, 2, 1};
     canvas->make();
-    canvas->save("test.png");
+    canvas->save("test.jpg");
 
     return 0;
 }

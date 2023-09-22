@@ -3,13 +3,16 @@
 
 /* constructors */
 exhibit::Canvas::Canvas(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_):
-    frames{frames_}, params{params_}
+    frames{frames_}, params{params_}, verbose{true}
 {
     // canvas is always landscape oriented
     int canvasHeight = static_cast<int>(std::round(params.canvasBase/params.canvasAspectRatio));
     Size_t canvas_size(params.canvasBase, canvasHeight);
     Scalar_t canvas_color = utils::rgb2bgr(params.canvasColor); 
     this->dst = Data_t(canvas_size, 16, canvas_color);
+
+    if (verbose)
+        std::cout << "Generated a canvas of size: " << this->dst.size() << std::endl;
 }
 
 exhibit::Canvas::~Canvas()
@@ -40,13 +43,38 @@ exhibit::FrameLayout_t exhibit::Cross::framesLayout
 };
 
 
+void exhibit::Canvas::verboseOff()
+{
+    this->verbose = false;
+}
+
+
+void exhibit::Canvas::verboseOn()
+{
+    this->verbose = true;
+}
+
+
+void exhibit::Canvas::resizeFrames()
+{
+    int frameBase = static_cast<int> (std::round(params.canvasBase*params.frame2canvasRatio));
+    for (std::size_t k=0; k!=this->frames.size(); ++k) {
+        if (frames.at(k).getSize() != Size_t {frameBase, frames.at(k).getHeight(frameBase)}) {
+            frames.at(k).resize(frameBase);
+            if (verbose)
+                std::cout << "Resized frame n. " << k+1 << " with size: " << frames.at(k).getSize() << std::endl;
+        }
+    }
+}
+
+
 void exhibit::Canvas::save(const std::string &path) const
 {
     utils::output(this->dst, path);
 }
 
 
-exhibit::Coord_t exhibit::Canvas::getOrigin(int nrows, int ncols, int row, int col) const
+exhibit::Coord_t exhibit::Canvas::getOrigin(int nrows, int ncols, int row, int col, const std::string& orientation) const
 {
     Coord_t origin;
 
@@ -58,8 +86,14 @@ exhibit::Coord_t exhibit::Canvas::getOrigin(int nrows, int ncols, int row, int c
     float v = params.vspaceRatio;
     float f2c = params.frame2canvasRatio;
 
-    origin.x = std::round( (A/2)*(1 - f2c*ncols - f2c*h*(ncols-1)) + (col-1)*A*f2c*(1 + h) );
-    origin.y = std::round( (A/2)*(r - f2c*p*nrows - f2c*v*(nrows-1)) + (row-1)*A*f2c*(p + v) );
+    // fix aspect ratio depending on orientation
+    if (orientation=="landscape") {
+        r = 1./r;
+        p = 1./p;
+    }
+
+    origin.x = std::round( (A/2)*(1 - f2c*ncols - f2c*h*(ncols-1)) + col*A*f2c*(1+h) );
+    origin.y = std::round( (A/2)*(r - f2c*p*nrows - f2c*v*(nrows-1)) + row*A*f2c*(p+v) );
 
     return origin;
 }
@@ -69,20 +103,20 @@ void exhibit::Matrix::make()
 {
     Mask_t mask;
     std::size_t k;
-    
+
+    this->resizeFrames();
+
     for (std::size_t row=0; row!=this->nrows; ++row) {
         for (std::size_t col=0; col!=this->ncols; ++col) {
             k = row*this->ncols + col; // flattening of matrix
-            frames.at(k).resize(std::round(params.canvasBase*params.frame2canvasRatio));
-            mask = Mask_t(this->getOrigin(nrows, ncols, row, col), frames.at(k).getSize());
-            
-            // DBG
-            std::cerr << "frame: " << k << std::endl;
-            frames.at(k).info();
-            std::cerr << "mask origin: " << mask.x << "\t" << mask.y << std::endl;
-            std::cerr << "dst: " << dst.size() << std::endl;
-            
+            mask = Mask_t(this->getOrigin(nrows, ncols, row, col, frames.at(k).getOrientation()), frames.at(k).getSize());
+            if (verbose) {
+                std::cout << "Frame n. " << k+1 << " of size: " << mask.size() << std::endl;
+                std::cout << "Frame n. " << k+1 << " to be inserted in position (x=" << mask.x << ", y=" << mask.y << ")\n";
+            }
             frames.at(k).copyTo(this->dst, mask);
+            if (verbose)
+                std::cout << "Frame n. " << k+1 << " inserted\n";
         }
     }
 }
@@ -93,10 +127,17 @@ void exhibit::Cross::make()
     Mask_t mask;
     int nrows, ncols, row, col;
 
+    this->resizeFrames();
+
     for (std::size_t k=0; k!=4; ++k) {
-        frames.at(k).resize(std::round(params.canvasBase*params.frame2canvasRatio));
         std::tie(nrows, ncols, row, col) = Cross::framesLayout[k]; // assign to a tuple of 4 int
-        mask = Mask_t(this->getOrigin(nrows, ncols, row, col), frames.at(k).getSize());
+        mask = Mask_t(this->getOrigin(nrows, ncols, row, col, frames.at(k).getOrientation()), frames.at(k).getSize());
+        if (verbose) {
+            std::cout << "Frame n. " << k+1 << " of size: " << mask.size() << std::endl;
+            std::cout << "Frame n. " << k+1 << " to be inserted in position (x=" << mask.x << ", y=" << mask.y << ")\n";
+        }
         frames.at(k).copyTo(this->dst, mask);
+        if (verbose)
+            std::cout << "Frame n. " << k+1 << " inserted\n";
     }
 }

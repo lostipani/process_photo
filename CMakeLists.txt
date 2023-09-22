@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-project( process )
+project( process_photo )
 find_package( OpenCV REQUIRED )
 include_directories( include ${OpenCV_INCLUDE_DIRS} )
 file(GLOB SRCS "./src/*.cpp")

@@ -70,7 +70,10 @@ namespace exhibit {
         float getAspectRatio() const;
         Size_t getSize() const;
         int getHeight(int, float) const;
+        int getHeight(int) const;
         void copyTo(Data_t&, const Mask_t&) const;
+        
+        friend class Canvas;
         friend class Matrix;
         friend class Cross;
     };
@@ -83,15 +86,18 @@ namespace exhibit {
         Canvas(const std::vector<Frame>&, const Parameters&);
         virtual ~Canvas();
         virtual void make() = 0;
-        void copyFrame(const Frame&, const Mask_t&);
+        virtual void resizeFrames();
         void save(const std::string&) const;
+        void verboseOff();
+        void verboseOn();
     
         protected:
         std::vector<Frame> frames;
         Parameters params;
         Data_t dst;
+        bool verbose;
 
-        Coord_t getOrigin(int, int, int, int) const;
+        Coord_t getOrigin(int, int, int, int, const std::string&) const;
     };
 
 
