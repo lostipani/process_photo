@@ -37,19 +37,19 @@ namespace exhibit {
 
     struct Parameters
     {
-        float canvasAspectRatio; // height/base
-        float frameAspectRatio; // height/base
-        float hspaceRatio; // frame's base/horiz. spacing
-        float vspaceRatio; // frame's base/vert. spacing
+        float canvasAspectRatio; // >1 i.e. base/height
+        float frameAspectRatio; // >1 regardless orientation
+        float hspaceRatio; // horiz. spacing/frame's base
+        float vspaceRatio; // vert. spacing/frame's base
         float frame2canvasRatio; // frame's base/canvas' base
-        float photo2frameRatio; // wrt. base
-        std::vector<float> frameThickRatio; // frame's thickness to base ratio
+        float photo2frameRatio; // photo's base/frame's base
+        std::vector<float> frameThickRatio; // frame's thickness/base
 
         int canvasBase; // [px]
 
-        std::vector<int> canvasColor;
-        std::vector<int> frameColor;
-        std::vector<int> passpartoutColor;
+        std::vector<int> canvasColor; // RGB
+        std::vector<int> frameColor; // RGB
+        std::vector<int> passpartoutColor; // RGB
     };
 
     
@@ -85,9 +85,9 @@ namespace exhibit {
     {
         public:
         Canvas(const std::vector<Frame>&, const Parameters&);
-        static Canvas* getCanvas(const std::vector<Frame>&, const Parameters&, int nrows_=0, int ncols_=0);
+        static Canvas* getCanvas(const std::vector<Frame>&, const Parameters&, int nrows_=0, int ncols_=0); // factory method
         virtual ~Canvas();
-        virtual void make() = 0;
+        virtual void make() = 0; // defined in derived classes Matrix and Cross
         virtual void resizeFrames();
         void save(const std::string&) const;
         void verboseOff();
@@ -122,7 +122,7 @@ namespace exhibit {
         void make() override;
 
         private:
-        static FrameLayout_t framesLayout;
+        static FrameLayout_t framesLayout; // specification of Cross
     };
 
    
