@@ -15,6 +15,7 @@ exhibit::Canvas::Canvas(const std::vector<exhibit::Frame>& frames_, const exhibi
         std::cout << "Generated a canvas of size: " << this->dst.size() << std::endl;
 }
 
+
 exhibit::Canvas::~Canvas()
 {
 }
@@ -26,6 +27,7 @@ exhibit::Matrix::Matrix(const std::vector<exhibit::Frame>& frames_, const exhibi
     assert(frames.size() == nrows*ncols);
 }
 
+
 exhibit::Cross::Cross(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_):
     Canvas::Canvas(frames_, params_)
 {
@@ -34,6 +36,15 @@ exhibit::Cross::Cross(const std::vector<exhibit::Frame>& frames_, const exhibit:
 
 
 /* members definitions */
+exhibit::Canvas* exhibit::Canvas::getCanvas(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_, int nrows_, int ncols_)
+{
+    if (nrows_==0 || ncols_==0)
+        return new Cross {frames_, params_};
+    else
+        return new Matrix {frames_, params_, nrows_, ncols_};
+}
+
+
 exhibit::FrameLayout_t exhibit::Cross::framesLayout
 {
     {0, {2,1,0,0}},

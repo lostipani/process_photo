@@ -85,6 +85,7 @@ namespace exhibit {
     {
         public:
         Canvas(const std::vector<Frame>&, const Parameters&);
+        static Canvas* getCanvas(const std::vector<Frame>&, const Parameters&, int nrows_=0, int ncols_=0);
         virtual ~Canvas();
         virtual void make() = 0;
         virtual void resizeFrames();
@@ -124,5 +125,5 @@ namespace exhibit {
         static FrameLayout_t framesLayout;
     };
 
-
+   
 };

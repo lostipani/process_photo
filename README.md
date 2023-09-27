@@ -1,4 +1,4 @@
-Compilation steps and execution on Linux machine
+Compilation steps and execution on Linux machine. Write your main accordingly to the input.
 
 1. CMakeLists.txt with following:
     ```
