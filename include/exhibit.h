@@ -21,10 +21,12 @@ namespace exhibit {
     using FrameLayout_t = std::map<int, std::tuple<int, int, int, int>>;
     class Frame;
     class Canvas;
+    class Matrix;
+    class Cross;
     struct Parameters;
     
-    /*Namespace and class member declarations*/
 
+    /*Namespace and class member declarations*/
     namespace utils 
     {
         Data_t input(const std::string&);
@@ -81,7 +83,6 @@ namespace exhibit {
 
     class Canvas
     {
-
         public:
         Canvas(const std::vector<Frame>&, const Parameters&);
         virtual ~Canvas();
@@ -122,5 +123,6 @@ namespace exhibit {
         private:
         static FrameLayout_t framesLayout;
     };
+
 
 };

@@ -11,11 +11,11 @@ int main(int argc, char** argv)
 
     // instantiate Parameters
     exhibit::Parameters parameters;
-     parameters.canvasAspectRatio = 4./3.;
+     parameters.canvasAspectRatio = 16./9.;
     parameters.frameAspectRatio = 1.4;
     parameters.hspaceRatio = 5./52.;
     parameters.vspaceRatio = 5./52.;
-    parameters.frame2canvasRatio = 0.2;
+    parameters.frame2canvasRatio = 0.3;
     parameters.photo2frameRatio = 30./52.;
     parameters.frameThickRatio = vector<float> (4, 3.5/52.);
      parameters.canvasBase = 1920;
@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 
 
     // instantiate Canvas
-    exhibit::Canvas *canvas = new exhibit::Matrix {frames, parameters, 2, 1};
+    exhibit::Canvas *canvas = new exhibit::Matrix {frames, parameters, 1, 3};
     canvas->make();
     canvas->save("test.jpg");
 

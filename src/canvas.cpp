@@ -80,7 +80,7 @@ exhibit::Coord_t exhibit::Canvas::getOrigin(int nrows, int ncols, int row, int c
 
     // aliases for the sake of semplicity
     int A = params.canvasBase;
-    float r = params.canvasAspectRatio;
+    float r = 1./params.canvasAspectRatio;
     float p = params.frameAspectRatio;
     float h = params.hspaceRatio;
     float v = params.vspaceRatio;
@@ -88,7 +88,6 @@ exhibit::Coord_t exhibit::Canvas::getOrigin(int nrows, int ncols, int row, int c
 
     // fix aspect ratio depending on orientation
     if (orientation=="landscape") {
-        r = 1./r;
         p = 1./p;
     }
 
