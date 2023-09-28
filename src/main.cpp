@@ -22,18 +22,12 @@ int main(int argc, char** argv)
      parameters.canvasColor = vector<int> {255, 255, 255};
     parameters.frameColor = vector<int> {10, 10, 10};
     parameters.passpartoutColor = vector<int> {250, 250, 250};
-    
-    assert(sizeof(parameters)!=0);
 
 
     // instantiate container of Frame(s)
     vector<exhibit::Frame> frames;
-    for (int k=0; k!=argc-1; ++k) {
+    for (int k=0; k!=argc-1; ++k) 
         frames.push_back(exhibit::Frame {argv[k+1], parameters});
-        frames.at(k).make();
-//        frames.at(k).info();
-    }
-
     assert(frames.size()==argc-1);
 
 
