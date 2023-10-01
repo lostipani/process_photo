@@ -1,13 +1,17 @@
-#include "opencv2/core.hpp"
-#include "opencv2/imgcodecs.hpp" // for cv:imwrite, cv::imread
-#include "opencv2/imgproc.hpp" // for cv::resize
 #include <iostream>
+#include <fstream>
 #include <string>
-#include <cmath>
 #include <vector>
 #include <map>
+#include <new>
+#include <cmath>
 #include <utility>
 #include <cassert>
+
+#include "boost/program_options.hpp"
+#include "opencv2/core.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/imgproc.hpp"
 
 
 namespace exhibit {
@@ -32,6 +36,7 @@ namespace exhibit {
         Data_t input(const std::string&);
         void output(const Data_t&, const std::string&);
         Scalar_t rgb2bgr(const std::vector<int>&);
+        bool parser(int, char**, Parameters&, int&, int&, std::vector<std::string>&, std::string&);
     };
 
 
