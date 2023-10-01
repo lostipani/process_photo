@@ -86,7 +86,6 @@ bool exhibit::utils::parser(int argc, char** argv, exhibit::Parameters& params, 
         return force_quit;
     }
     
-    
     std::ifstream ifs(config_file.c_str());
     if (!ifs) {
         std::cerr << "cannot open configuration file" << std::endl;
@@ -96,9 +95,15 @@ bool exhibit::utils::parser(int argc, char** argv, exhibit::Parameters& params, 
     else {
         store(parse_config_file(ifs, config_file_options), vm);
         notify(vm);
-        source_files = vm["sourceFiles"].as<std::vector<std::string>>();
     }
 
+    if (vm.count("sourceFiles"))
+        source_files = vm["sourceFiles"].as<std::vector<std::string>>();
+    else {
+        std::cout << "no input source provided" << std::endl;
+        force_quit=true;
+        return force_quit;
+    }
 
     if (vm.count("cross")) {
         ncols = 0;
