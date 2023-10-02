@@ -1,5 +1,17 @@
+## Compilation
+Tested on a `x86_64 GNU/Linux, 20.04.1-Ubuntu` machine. 
+1. You would like to write your own `src/main.cpp` or leave as it is.
+1. See `CMakeLists.txt` for details on library import.
+1. `cmake [-DCMAKE_CXX_FLAGS="-g"] .`
+1. `make`
+
+## Execution
+Tested on a `x86_64 GNU/Linux, 20.04.1-Ubuntu` machine. 
+1. `./process --options [args]` or write yours and run `./run_process.sh`
+
 ## Dependencies
 [OpenCV](https://docs.opencv.org/4.8.0/d9/df8/tutorial_root.html)
+
 [Boost::program_options](https://www.boost.org/doc/libs/1_83_0/doc/html/program_options.html)    
 
 ### Build Boost::program_options
@@ -12,20 +24,3 @@
     ls /usr/local/include/boost/
     ```
 
-
-## Compilation and execution
-
-Compilation steps and execution on Linux machine. Write your `main.cpp` accordingly to the input.
-1. CMakeLists.txt with following:
-    ```
-    cmake_minimum_required(VERSION 2.8)
-    project(process)
-    find_package(OpenCV REQUIRED)
-    include_directories(include ${OpenCV_INCLUDE_DIRS})
-    file(GLOB SRC "./src/*.cpp")
-    add_executable(process SRC)
-    target_link_libraries(process ${OpenCV_LIBS})
-    ```
-1. `cmake [-DCMAKE_CXX_FLAGS="-g"] .`
-1. `make`
-1. `./process --options [args]`
