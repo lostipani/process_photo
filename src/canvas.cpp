@@ -2,36 +2,47 @@
 
 
 /* constructors */
-exhibit::Canvas::Canvas(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_):
-    frames{frames_}, params{params_}, verbose{true}
-{
-    // canvas is always landscape oriented
-    int canvasHeight = static_cast<int>(std::round(params.canvasBase/params.canvasAspectRatio));
-    Size_t canvas_size(params.canvasBase, canvasHeight);
-    Scalar_t canvas_color = utils::rgb2bgr(params.canvasColor); 
-    this->dst = Data_t(canvas_size, 16, canvas_color);
-
-    if (verbose)
-        std::cout << "Generated a canvas of size: " << this->dst.size() << std::endl;
-}
-
 
 exhibit::Canvas::~Canvas()
 {
 }
 
 
-exhibit::Matrix::Matrix(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_, int nrows_, int ncols_):
-    Canvas::Canvas(frames_, params_), nrows{nrows_}, ncols{ncols_}
+exhibit::Matrix::Matrix(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_, int nrows_, int ncols_)
 {
+    this->frames = frames_;
+    this->params = params_;
+    this->verbose = true;
+    this->nrows = nrows_;
+    this->ncols = ncols_;
+
     assert(frames.size() == nrows*ncols);
+
+    int canvasHeight = static_cast<int>(std::round(params.canvasBase/params.canvasAspectRatio));
+    Size_t canvas_size(params.canvasBase, canvasHeight);
+    Scalar_t canvas_color = utils::rgb2bgr(params.canvasColor); 
+    this->dst = Data_t(canvas_size, 16, canvas_color);
+
+    if (verbose)
+        std::cout << "Matrix canvas generated with size: " << this->dst.size() << std::endl;
 }
 
 
-exhibit::Cross::Cross(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_):
-    Canvas::Canvas(frames_, params_)
+exhibit::Cross::Cross(const std::vector<exhibit::Frame>& frames_, const exhibit::Parameters& params_)
 {
+    this->frames = frames_;
+    this->params = params_;
+    this->verbose = true;
+    
     assert(frames.size() == 4);
+    
+    int canvasHeight = static_cast<int>(std::round(params.canvasBase/params.canvasAspectRatio));
+    Size_t canvas_size(params.canvasBase, canvasHeight);
+    Scalar_t canvas_color = utils::rgb2bgr(params.canvasColor); 
+    this->dst = Data_t(canvas_size, 16, canvas_color);
+
+    if (verbose)
+        std::cout << "Cross canvas generated with size: " << this->dst.size() << std::endl;
 }
 
 

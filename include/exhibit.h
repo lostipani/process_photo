@@ -89,7 +89,6 @@ namespace exhibit {
     class Canvas
     {
         public:
-        Canvas(const std::vector<Frame>&, const Parameters&);
         static Canvas* getCanvas(const std::vector<Frame>&, const Parameters&, int nrows_=0, int ncols_=0); // factory method
         virtual ~Canvas();
         virtual void make() = 0; // defined in derived classes Matrix and Cross
