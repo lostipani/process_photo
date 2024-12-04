@@ -1,3 +1,6 @@
+# Process photo from MuMi 2023 Fernando Stipani Photo Exhibition
+Utility to turn photo(s) into a framed picture comprising a set of differently arranged canvas each comprising a photo, a passepartout and a frame.
+
 ## Compilation
 Tested on a `x86_64 GNU/Linux, 20.04.1-Ubuntu` machine. 
 1. You would like to write your own `src/main.cpp` or leave as it is.
